@@ -1,0 +1,91 @@
+<div class="modal fade" id="signInComment" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="body">
+
+                    <div class="titleIcon wow fadeInUp" data-wow-delay="0.2s">
+                        <i class="fal fa-comment wow fadeInUp" data-wow-delay="0.5s"></i>
+                    </div>
+
+                    <div class="title">
+                        Sign in or join for free to comment on this content
+                        <p class="desc">Add your voice and help build the Bankless community.</p>
+                    </div>
+
+                    <form name="signInComment">
+                        <input type="email" class="form-control" name="email" placeholder="Sign in or join with email" />
+
+                        <button type="submit" class="submit">
+                            Next
+                        </button>
+                    </form>
+                            <script type="text/javascript">
+            $("form[name='signInComment']").submit(function(e) {
+                e.preventDefault();
+                $( "#returnStatus" ).empty();
+
+                if(typeof loadingBtnText_signInComment !== "undefined" && typeof loadingBtnTextOriginal_signInComment !== "undefined") {
+                    if($("form[name='signInComment'] button[type='submit']").length) {
+                        $("form[name='signInComment'] button[type='submit']").html(loadingBtnText_signInComment);
+                    } else {
+                        if($("form[name='signInComment'] button[type='button']").length) {
+                            $("form[name='signInComment'] button[type='button']").html(loadingBtnText_signInComment);
+                        }
+                    }
+                }
+
+                grecaptcha.ready(() => {
+                    grecaptcha.execute('6LciwRQpAAAAAGzl-p83yuqHPtZJ-FZfVlmzs0D-', { action: 'contact' }).then(token => {
+                        $(".recaptchaTokenInput").val(token);
+
+                        var formData = new FormData($(this)[0]);
+
+                        $.ajax({
+                            url: "https://www.bankless.com/api/account/sign-in-like",
+                            type: "POST",
+                            data: formData,
+                            async: true,
+                            success: function (msg) {
+                                $('#returnStatus').append(msg);
+
+                                if(typeof loadingBtnText_signInComment !== "undefined" && typeof loadingBtnTextOriginal_signInComment !== "undefined") {
+                                    if($("form[name='signInComment'] button[type='submit']").length) {
+                                        $("form[name='signInComment'] button[type='submit']").html(loadingBtnTextOriginal_signInComment);
+                                    } else {
+                                        if($("form[name='signInComment'] button[type='button']").length) {
+                                            $("form[name='signInComment'] button[type='button']").html(loadingBtnTextOriginal_signInComment);
+                                        }
+                                    }
+                                }
+
+                            },
+                            cache: false,
+                            contentType: false,
+                            processData: false
+                        });
+
+                    });
+                });
+
+
+            });
+            $("form[name='signInComment']").append('<input type="hidden" name="recaptchaResponse" class="recaptchaTokenInput" value="" />');
+        </script>
+        
+                    <p class="terms">
+                        By entering and clicking Next, you agree to the Bankless <a href="../../terms.html" target="_blank">Terms</a> and <a href="../../privacy.html" target="_blank">Privacy</a> statements
+                    </p>
+
+                </div>
+                <div class="bottom" data-bs-dismiss="modal">
+                    <span>Close</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>        <script>
+            var signInComment = new bootstrap.Modal(document.getElementById('signInComment'));
+            signInComment.show();
+        </script>
+        
